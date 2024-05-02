@@ -4,10 +4,11 @@ import { MEALS } from '../data/dummyData'
 
 
 
-const MealsOverviewScreen = () => {
+const MealsOverviewScreen = ({ route }) => {
+    const catId = route.params.categoryId;
   return (
     <View style={styles.container}>
-      <Text>MealsOverviewScreen</Text>
+      <Text>MealsOverviewScreen - {catId}</Text>
     </View>
   )
 }
