@@ -4,6 +4,7 @@ import {MEALS} from '../data/dummyData';
 import MealDetails from '../components/MealDetails';
 import SubTitle from '../components/MealDetail/SubTitle';
 import List from '../components/MealDetail/List';
+import IconButton from '../components/IconButton';
 const MealDetailsScreen = ({route, navigation}) => {
     const mealId = route.params.mealId;
 
@@ -16,7 +17,7 @@ const MealDetailsScreen = ({route, navigation}) => {
     useLayoutEffect(() => {
         navigation.setOptions({
             headerRight: () => {
-                return <Button title="Tab me!" onPress={headerButtonPressHandler} />
+                return <IconButton icon="star" color="white" onPress={headerButtonPressHandler}/>
             }
         })
     },[navigation, headerButtonPressHandler])
