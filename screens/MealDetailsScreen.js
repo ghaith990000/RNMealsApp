@@ -1,26 +1,34 @@
 import { View, Text, Image, StyleSheet, ScrollView, Button } from 'react-native'
-import React, {useLayoutEffect} from 'react'
+import React, {useContext, useLayoutEffect} from 'react'
 import {MEALS} from '../data/dummyData';
 import MealDetails from '../components/MealDetails';
 import SubTitle from '../components/MealDetail/SubTitle';
 import List from '../components/MealDetail/List';
 import IconButton from '../components/IconButton';
+import { FavoritesContext } from '../store/context/favorites-context';
 const MealDetailsScreen = ({route, navigation}) => {
+    const favoriteMealsCtx = useContext(FavoritesContext);
     const mealId = route.params.mealId;
 
     const selectedMeal = MEALS.find((meal) => meal.id === mealId);
 
-    const headerButtonPressHandler = () => {
-        console.log("Header Button Pressed");
+    const mealIsFavorite = favoriteMealsCtx.ids.includes(mealId);
+
+    const changeFavoriteStatusHandler = () => {
+        if(mealIsFavorite){
+            favoriteMealsCtx.removeFavorite(mealId);
+        }else {
+            favoriteMealsCtx.addFavorite(mealId);
+        }
     }
 
     useLayoutEffect(() => {
         navigation.setOptions({
             headerRight: () => {
-                return <IconButton icon="star" color="white" onPress={headerButtonPressHandler}/>
+                return <IconButton icon={mealIsFavorite ? "star" : 'star-outline'} color="white" onPress={changeFavoriteStatusHandler}/>
             }
         })
-    },[navigation, headerButtonPressHandler])
+    },[navigation, changeFavoriteStatusHandler])
   return (
     <ScrollView style={styles.rootContainer}>
         <Image style={styles.image} source={{uri: selectedMeal.imageUrl}} />
